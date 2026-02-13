@@ -1,4 +1,4 @@
 1:"$Sreact.fragment"
 2:I[39756,["/nutrient-economist/_next/static/chunks/2f236954d6a65e12.js"],"default"]
 3:I[37457,["/nutrient-economist/_next/static/chunks/2f236954d6a65e12.js"],"default"]
-0:{"buildId":"BrsJ5OgP8dkYI7kF84j_M","rsc":["$","$1","c",{"children":[null,["$","$L2",null,{"parallelRouterKey":"children","template":["$","$L3",null,{}]}]]}],"loading":null,"isPartial":false}
+0:{"buildId":"ANPB4DAbgSIV0piVeG-Hv","rsc":["$","$1","c",{"children":[null,["$","$L2",null,{"parallelRouterKey":"children","template":["$","$L3",null,{}]}]]}],"loading":null,"isPartial":false}
