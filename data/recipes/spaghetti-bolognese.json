@@ -1,0 +1,59 @@
+{
+    "id": "spaghetti-bolognese",
+    "name": "Spaghetti Bolognese",
+    "emoji": "🍝",
+    "servings": 4,
+    "prepTime": 15,
+    "cookTime": 40,
+    "difficulty": "easy",
+    "tags": [
+        "italian",
+        "family-friendly",
+        "comfort"
+    ],
+    "hasLeftovers": true,
+    "mealType": [
+        "dinner"
+    ],
+    "ingredients": [
+        {
+            "productId": "p1",
+            "amount": 500,
+            "unit": "g",
+            "name": "Beef Mince"
+        },
+        {
+            "productId": "c2",
+            "amount": 400,
+            "unit": "g",
+            "name": "Pasta"
+        },
+        {
+            "productId": "int-pasta-sauce",
+            "amount": 420,
+            "unit": "g",
+            "name": "Pasta Sauce"
+        },
+        {
+            "productId": "v3",
+            "amount": 200,
+            "unit": "g",
+            "name": "Onions"
+        },
+        {
+            "productId": "v2",
+            "amount": 100,
+            "unit": "g",
+            "name": "Carrots"
+        }
+    ],
+    "steps": [
+        "Dice onions and carrots finely",
+        "Brown mince in a large pan",
+        "Chuck in the veggies and cook until soft",
+        "Pour in pasta sauce and simmer for 20 mins",
+        "Boil pasta according to packet instructions",
+        "Mix it all together and serve with grated cheese if you're fancy"
+    ],
+    "notes": "Classic Kiwi staple. Kids love it, adults love it, everyone's happy."
+}

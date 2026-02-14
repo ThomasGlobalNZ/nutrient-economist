@@ -1,6 +1,6 @@
 import React from 'react';
 import { GeneratedCart, CartItem } from '../data/utils';
-import AiChef from './AiChef';
+
 
 interface MealPlanProps {
     cart: GeneratedCart;
@@ -63,9 +63,6 @@ export default function MealPlan({ cart }: MealPlanProps) {
             </div>
 
             <div className="p-6">
-                {/* AI CHEF COMPONENT */}
-                <AiChef cart={cart} />
-
                 <div className="space-y-8 mt-8">
                     {/* Breakfast Section */}
                     <div>

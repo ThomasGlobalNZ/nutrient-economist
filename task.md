@@ -50,8 +50,42 @@
 - [x] **UI Update:** Display allergen warnings and meal suggestions <!-- id: 62 -->
 - [x] **Deployment Config:** Setup Next.js for GitHub Pages (Static Export) <!-- id: 63 -->
 
+## Phase 6.6: Health & Safety Refinement
+- [x] **Data/UI Update:** Add "Preservative Free" Filter <!-- id: 70 -->
+- [x] **Data/UI Update:** Add "Infant Allergen Awareness" (Highlighting/Filtering) <!-- id: 71 -->
+
 ## Phase 7: Final Deployment
 > See `DEPLOY_CHECKLIST.md` for detailed steps on GitHub, Vercel, and Domain setup.
 - [ ] **Initialize Git & Push to GitHub** <!-- id: 50 -->
 - [ ] **Deploy to Vercel** <!-- id: 51 -->
 - [ ] **Integrate Real AI API** <!-- id: 52 -->
+
+## Phase 8: SmartKete V2 (The Upgrade)
+- [x] **Data Layer Refactor:** Implement calculated "Needs vs Budget" logic <!-- id: 80 -->
+- [x] **Data Layer Refactor:** Add Duration (7/14 days) and Meal Frequency (3-5) <!-- id: 81 -->
+- [x] **UI Overhaul:** Implement Tabbed Interface (Setup / Haul / Share) <!-- id: 82 -->
+- [x] **Phase 8: Deployment (GitHub Pages)**
+    - [x] **Config:** Set `output: 'export'` and `basePath` in `next.config.ts` <!-- id: 82 -->
+    - [x] **Script:** Add `deploy` script to `package.json` (with `-t` flag for dotfiles) <!-- id: 83 -->
+    - [x] **Deploy:** Run `npm run deploy` <!-- id: 86 -->
+
+- [ ] **Phase 8.5: Refinements**
+    - [x] **Fix Bulk Buy Logic:** Prioritize >2kg items correctly <!-- id: 90 -->
+    - [x] **Restore Safety Buffer:** Add slider back to UI <!-- id: 91 -->
+- [x] **Phase 9: Snack Attack (User Request)**
+    - [x] **Data:** Add Kiwi Classics (Onion Soup + Reduced Cream, Griffins) <!-- id: 95 -->
+    - [x] **UI:** Add "Include Snacks" Toggle in Diet Tab <!-- id: 96 -->
+    - [x] **Logic:** specific "Snack Filling" algorithm <!-- id: 97 -->
+- [x] **Phase 10: Feedback & Data Crowdsourcing (User Request)**
+    - [x] **UI:** Create `CrowdsourceModal` for "Real Spend" input <!-- id: 100 -->
+    - [x] **Integration:** Add "Verify Shop" button in Shopping List <!-- id: 101 -->
+    - [x] **Logic:** Generate `mailto` link with structured data <!-- id: 102 -->
+- [x] **Phase 11: Manual Entry & Store Expansion (User Request)**
+    - [x] **Data:** Add `FreshChoice`, `TheKaiCo` to Store options <!-- id: 105 -->
+    - [x] **UI:** Create `AddCustomItemModal` with search functionality <!-- id: 106 -->
+    - [x] **Integration:** Add "Add Custom Item" button to Shopping List <!-- id: 107 -->
+- [x] **Phase 12: UI Fixes (User Request)**
+    - [x] **Meals Tab:** Implement MealPlanningWizard in meals tab <!-- id: 110 -->
+    - [x] **Safety Buffer:** Remove UI selector (keep hardcoded 5%) <!-- id: 111 -->
+    - [x] **Staples:** Move checkbox from Budget to Diet tab <!-- id: 112 -->
+    - [x] **Navigation:** Update flow to include Meals tab <!-- id: 113 -->

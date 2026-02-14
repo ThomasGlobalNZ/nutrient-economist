@@ -1,0 +1,60 @@
+{
+    "id": "sunday-roast",
+    "name": "Sunday Roast Chicken",
+    "emoji": "🍗",
+    "servings": 6,
+    "prepTime": 30,
+    "cookTime": 90,
+    "difficulty": "medium",
+    "tags": [
+        "kiwi-classic",
+        "comfort",
+        "special"
+    ],
+    "hasLeftovers": true,
+    "mealType": [
+        "dinner"
+    ],
+    "ingredients": [
+        {
+            "productId": "p2",
+            "amount": 1200,
+            "unit": "g",
+            "name": "Whole Chicken or Chicken Pieces"
+        },
+        {
+            "productId": "c5",
+            "amount": 800,
+            "unit": "g",
+            "name": "Potatoes"
+        },
+        {
+            "productId": "c6",
+            "amount": 400,
+            "unit": "g",
+            "name": "Kumara"
+        },
+        {
+            "productId": "v2",
+            "amount": 400,
+            "unit": "g",
+            "name": "Carrots"
+        },
+        {
+            "productId": "v3",
+            "amount": 200,
+            "unit": "g",
+            "name": "Onions"
+        }
+    ],
+    "steps": [
+        "Preheat oven to 180°C",
+        "Chop all veggies into chunks",
+        "Place chicken in roasting dish surrounded by veggies",
+        "Drizzle with oil, season with salt and pepper",
+        "Roast for 1.5 hours until golden and crispy",
+        "Rest for 10 mins, then carve and serve",
+        "Make gravy from the pan juices if you're feeling it"
+    ],
+    "notes": "The ultimate Sunday feed. Leftovers make legendary sandwiches on Monday."
+}

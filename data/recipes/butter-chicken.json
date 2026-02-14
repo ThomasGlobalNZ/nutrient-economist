@@ -1,0 +1,59 @@
+{
+    "id": "butter-chicken",
+    "name": "Butter Chicken",
+    "emoji": "🍛",
+    "servings": 4,
+    "prepTime": 20,
+    "cookTime": 45,
+    "difficulty": "medium",
+    "tags": [
+        "indian",
+        "comfort",
+        "freezer-friendly"
+    ],
+    "hasLeftovers": true,
+    "mealType": [
+        "dinner"
+    ],
+    "ingredients": [
+        {
+            "productId": "p2",
+            "amount": 600,
+            "unit": "g",
+            "name": "Chicken Breast"
+        },
+        {
+            "productId": "v4",
+            "amount": 400,
+            "unit": "g",
+            "name": "Canned Tomatoes"
+        },
+        {
+            "productId": "c1",
+            "amount": 300,
+            "unit": "g",
+            "name": "White Rice"
+        },
+        {
+            "productId": "v3",
+            "amount": 150,
+            "unit": "g",
+            "name": "Onions"
+        },
+        {
+            "productId": "d3",
+            "amount": 50,
+            "unit": "g",
+            "name": "Butter"
+        }
+    ],
+    "steps": [
+        "Dice chicken into bite-sized chunks",
+        "Fry onions in butter until golden",
+        "Add chicken and brown on all sides",
+        "Pour in canned tomatoes and simmer for 30 mins",
+        "Add cream and spices to taste",
+        "Serve over rice with a cheeky naan if you're feeling flash"
+    ],
+    "notes": "Makes heaps! Perfect for leftovers the next day. Freezes like a dream."
+}

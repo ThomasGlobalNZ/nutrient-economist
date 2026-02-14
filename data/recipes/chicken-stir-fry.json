@@ -1,0 +1,54 @@
+{
+    "id": "chicken-stir-fry",
+    "name": "Chicken Stir Fry",
+    "emoji": "🥢",
+    "servings": 4,
+    "prepTime": 10,
+    "cookTime": 25,
+    "difficulty": "easy",
+    "tags": [
+        "asian",
+        "quick",
+        "healthy"
+    ],
+    "hasLeftovers": false,
+    "mealType": [
+        "dinner"
+    ],
+    "ingredients": [
+        {
+            "productId": "p2",
+            "amount": 500,
+            "unit": "g",
+            "name": "Chicken Breast"
+        },
+        {
+            "productId": "v5",
+            "amount": 500,
+            "unit": "g",
+            "name": "Frozen Stir Fry Mix"
+        },
+        {
+            "productId": "c1",
+            "amount": 300,
+            "unit": "g",
+            "name": "White Rice"
+        },
+        {
+            "productId": "int-soy-sauce",
+            "amount": 50,
+            "unit": "ml",
+            "name": "Soy Sauce"
+        }
+    ],
+    "steps": [
+        "Slice chicken into thin strips",
+        "Cook rice according to packet",
+        "Heat wok or large pan on high heat",
+        "Stir fry chicken until cooked through",
+        "Add frozen veg and cook for 5 mins",
+        "Drizzle soy sauce over everything and toss",
+        "Serve over rice and you're done!"
+    ],
+    "notes": "Quick weeknight winner. No leftovers though, everyone smashes it."
+}

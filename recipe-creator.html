@@ -1,0 +1,508 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SmartKete Recipe Creator</title>
+    <script src="https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #10b981 0%, #14b8a6 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #10b981, #14b8a6);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+
+        .header p {
+            opacity: 0.9;
+        }
+
+        .content {
+            padding: 30px;
+        }
+
+        .tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 30px;
+            border-bottom: 2px solid #e5e7eb;
+        }
+
+        .tab {
+            padding: 15px 30px;
+            background: none;
+            border: none;
+            font-size: 16px;
+            font-weight: 600;
+            color: #6b7280;
+            cursor: pointer;
+            border-bottom: 3px solid transparent;
+            transition: all 0.3s;
+        }
+
+        .tab.active {
+            color: #10b981;
+            border-bottom-color: #10b981;
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            font-weight: 600;
+            color: #374151;
+            margin-bottom: 8px;
+            font-size: 14px;
+        }
+
+        input, textarea, select {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e5e7eb;
+            border-radius: 8px;
+            font-size: 14px;
+            font-family: inherit;
+            transition: border-color 0.3s;
+        }
+
+        input:focus, textarea:focus, select:focus {
+            outline: none;
+            border-color: #10b981;
+        }
+
+        textarea {
+            min-height: 100px;
+            resize: vertical;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+        }
+
+        .ingredient-item, .step-item {
+            background: #f9fafb;
+            padding: 15px;
+            border-radius: 8px;
+            border: 2px solid #e5e7eb;
+            position: relative;
+        }
+
+        .remove-btn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: #ef4444;
+            color: white;
+            border: none;
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 16px;
+            line-height: 1;
+        }
+
+        .btn {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            font-size: 14px;
+            transition: all 0.3s;
+        }
+
+        .btn-primary {
+            background: #10b981;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #059669;
+        }
+
+        .btn-secondary {
+            background: #6b7280;
+            color: white;
+        }
+
+        .btn-secondary:hover {
+            background: #4b5563;
+        }
+
+        .btn-success {
+            background: #10b981;
+            color: white;
+            width: 100%;
+            padding: 16px;
+            font-size: 16px;
+            margin-top: 20px;
+        }
+
+        .ocr-section {
+            background: #f0fdf4;
+            border: 2px dashed #10b981;
+            border-radius: 12px;
+            padding: 30px;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .ocr-section input[type="file"] {
+            display: none;
+        }
+
+        .upload-label {
+            display: inline-block;
+            padding: 15px 30px;
+            background: #10b981;
+            color: white;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: background 0.3s;
+        }
+
+        .upload-label:hover {
+            background: #059669;
+        }
+
+        #ocrPreview {
+            max-width: 100%;
+            margin: 20px 0;
+            border-radius: 8px;
+        }
+
+        #ocrResult {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            margin-top: 20px;
+            text-align: left;
+            white-space: pre-wrap;
+            font-family: monospace;
+            font-size: 12px;
+        }
+
+        .json-output {
+            background: #1f2937;
+            color: #10b981;
+            padding: 20px;
+            border-radius: 12px;
+            font-family: 'Courier New', monospace;
+            font-size: 13px;
+            white-space: pre-wrap;
+            max-height: 500px;
+            overflow-y: auto;
+        }
+
+        .copy-btn {
+            float: right;
+            margin-bottom: 10px;
+        }
+
+        .progress {
+            display: none;
+            margin-top: 20px;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background: #e5e7eb;
+            border-radius: 4px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: #10b981;
+            width: 0%;
+            transition: width 0.3s;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🍽️ SmartKete Recipe Creator</h1>
+            <p>Create recipe JSON files from manual entry or photos (OCR)</p>
+        </div>
+
+        <div class="content">
+            <div class="tabs">
+                <button class="tab active" onclick="switchTab('manual')">✍️ Manual Entry</button>
+                <button class="tab" onclick="switchTab('ocr')">📸 Photo OCR</button>
+                <button class="tab" onclick="switchTab('output')">📄 JSON Output</button>
+            </div>
+
+            <!-- Manual Entry Tab -->
+            <div id="manual-tab" class="tab-content active">
+                <div class="form-group">
+                    <label>Recipe ID (lowercase, use hyphens)</label>
+                    <input type="text" id="recipeId" placeholder="moms-lasagna">
+                </div>
+
+                <div class="grid">
+                    <div class="form-group">
+                        <label>Recipe Name</label>
+                        <input type="text" id="recipeName" placeholder="Mom's Lasagna">
+                    </div>
+                    <div class="form-group">
+                        <label>Emoji</label>
+                        <input type="text" id="recipeEmoji" placeholder="🍝" maxlength="2">
+                    </div>
+                </div>
+
+                <div class="grid">
+                    <div class="form-group">
+                        <label>Servings</label>
+                        <input type="number" id="servings" value="4" min="1">
+                    </div>
+                    <div class="form-group">
+                        <label>Prep Time (minutes)</label>
+                        <input type="number" id="prepTime" value="15" min="0">
+                    </div>
+                    <div class="form-group">
+                        <label>Cook Time (minutes)</label>
+                        <input type="number" id="cookTime" value="30" min="0">
+                    </div>
+                    <div class="form-group">
+                        <label>Difficulty</label>
+                        <select id="difficulty">
+                            <option value="easy">Easy</option>
+                            <option value="medium">Medium</option>
+                            <option value="hard">Hard</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="grid">
+                    <div class="form-group">
+                        <label>Meal Type</label>
+                        <select id="mealType">
+                            <option value="breakfast">Breakfast</option>
+                            <option value="lunch">Lunch</option>
+                            <option value="dinner" selected>Dinner</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Has Leftovers?</label>
+                        <select id="hasLeftovers">
+                            <option value="true">Yes</option>
+                            <option value="false">No</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Tags (comma separated)</label>
+                    <input type="text" id="tags" placeholder="family-favorite, comfort, italian">
+                </div>
+
+                <div class="form-group">
+                    <label>Ingredients (one per line: productId, amount, unit, name)</label>
+                    <textarea id="ingredients" placeholder="p1, 500, g, Beef Mince&#10;c2, 400, g, Pasta&#10;int-pasta-sauce, 420, g, Pasta Sauce"></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label>Steps (one per line)</label>
+                    <textarea id="steps" placeholder="Brown the mince in a large pan&#10;Add pasta sauce and simmer for 20 mins&#10;Boil pasta according to packet"></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label>Notes (optional)</label>
+                    <textarea id="notes" placeholder="Mom's secret tip: add a pinch of nutmeg!"></textarea>
+                </div>
+
+                <button class="btn btn-success" onclick="generateJSON()">Generate JSON</button>
+            </div>
+
+            <!-- OCR Tab -->
+            <div id="ocr-tab" class="tab-content">
+                <div class="ocr-section">
+                    <h3 style="margin-bottom: 15px;">Upload Recipe Photo</h3>
+                    <p style="color: #6b7280; margin-bottom: 20px;">Take a photo of your recipe card or book page</p>
+                    <label for="imageUpload" class="upload-label">
+                        📷 Choose Image
+                    </label>
+                    <input type="file" id="imageUpload" accept="image/*" onchange="processImage()">
+                    <img id="ocrPreview" style="display: none;">
+                    <div class="progress" id="ocrProgress">
+                        <p style="margin-bottom: 10px; color: #6b7280;">Processing image...</p>
+                        <div class="progress-bar">
+                            <div class="progress-fill" id="progressFill"></div>
+                        </div>
+                    </div>
+                    <div id="ocrResult"></div>
+                </div>
+                <p style="color: #6b7280; font-size: 14px;">
+                    <strong>Tip:</strong> After OCR extraction, review the text and manually fill in the form in the "Manual Entry" tab.
+                </p>
+            </div>
+
+            <!-- Output Tab -->
+            <div id="output-tab" class="tab-content">
+                <button class="btn btn-primary copy-btn" onclick="copyJSON()">📋 Copy JSON</button>
+                <button class="btn btn-secondary copy-btn" onclick="downloadJSON()" style="margin-right: 10px;">💾 Download</button>
+                <div style="clear: both;"></div>
+                <div class="json-output" id="jsonOutput">
+                    Generate a recipe to see the JSON output here...
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let currentRecipeJSON = '';
+
+        function switchTab(tabName) {
+            // Update tab buttons
+            document.querySelectorAll('.tab').forEach(tab => tab.classList.remove('active'));
+            event.target.classList.add('active');
+
+            // Update tab content
+            document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
+            document.getElementById(tabName + '-tab').classList.add('active');
+        }
+
+        function generateJSON() {
+            const recipe = {
+                id: document.getElementById('recipeId').value || 'new-recipe',
+                name: document.getElementById('recipeName').value || 'New Recipe',
+                emoji: document.getElementById('recipeEmoji').value || '🍽️',
+                servings: parseInt(document.getElementById('servings').value) || 4,
+                prepTime: parseInt(document.getElementById('prepTime').value) || 15,
+                cookTime: parseInt(document.getElementById('cookTime').value) || 30,
+                difficulty: document.getElementById('difficulty').value,
+                tags: document.getElementById('tags').value.split(',').map(t => t.trim()).filter(t => t),
+                hasLeftovers: document.getElementById('hasLeftovers').value === 'true',
+                mealType: [document.getElementById('mealType').value],
+                ingredients: [],
+                steps: [],
+                notes: document.getElementById('notes').value || ''
+            };
+
+            // Parse ingredients
+            const ingredientLines = document.getElementById('ingredients').value.split('\n').filter(l => l.trim());
+            ingredientLines.forEach(line => {
+                const parts = line.split(',').map(p => p.trim());
+                if (parts.length >= 4) {
+                    recipe.ingredients.push({
+                        productId: parts[0],
+                        amount: parseFloat(parts[1]) || 0,
+                        unit: parts[2],
+                        name: parts.slice(3).join(', ')
+                    });
+                }
+            });
+
+            // Parse steps
+            recipe.steps = document.getElementById('steps').value.split('\n').filter(s => s.trim());
+
+            // Generate formatted JSON
+            currentRecipeJSON = JSON.stringify(recipe, null, 4);
+            document.getElementById('jsonOutput').textContent = currentRecipeJSON;
+
+            // Switch to output tab
+            document.querySelectorAll('.tab').forEach(tab => tab.classList.remove('active'));
+            document.querySelectorAll('.tab')[2].classList.add('active');
+            document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
+            document.getElementById('output-tab').classList.add('active');
+        }
+
+        function copyJSON() {
+            navigator.clipboard.writeText(currentRecipeJSON).then(() => {
+                alert('JSON copied to clipboard!');
+            });
+        }
+
+        function downloadJSON() {
+            const recipeId = document.getElementById('recipeId').value || 'new-recipe';
+            const blob = new Blob([currentRecipeJSON], { type: 'application/json' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `${recipeId}.json`;
+            a.click();
+            URL.revokeObjectURL(url);
+        }
+
+        async function processImage() {
+            const file = document.getElementById('imageUpload').files[0];
+            if (!file) return;
+
+            const preview = document.getElementById('ocrPreview');
+            const progress = document.getElementById('ocrProgress');
+            const result = document.getElementById('ocrResult');
+            const progressFill = document.getElementById('progressFill');
+
+            // Show preview
+            preview.src = URL.createObjectURL(file);
+            preview.style.display = 'block';
+            progress.style.display = 'block';
+            result.textContent = '';
+
+            try {
+                const { data: { text } } = await Tesseract.recognize(
+                    file,
+                    'eng',
+                    {
+                        logger: m => {
+                            if (m.status === 'recognizing text') {
+                                progressFill.style.width = (m.progress * 100) + '%';
+                            }
+                        }
+                    }
+                );
+
+                progress.style.display = 'none';
+                result.textContent = text;
+                alert('OCR complete! Review the extracted text and manually fill in the form.');
+            } catch (error) {
+                progress.style.display = 'none';
+                result.textContent = 'Error processing image: ' + error.message;
+            }
+        }
+    </script>
+</body>
+</html>

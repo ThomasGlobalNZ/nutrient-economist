@@ -1,43 +1,26 @@
-# Implementation Plan - Allergens, AI, and Deployment
+# Implementation Plan - Phase 13: The Smartest Cart
 
 ## Goal Description
-The goal is to enhance the Nutrient Economist app by adding detailed product information (allergens, preservatives), implementing an AI-driven meal suggestion feature (initially mocked directly in the app for "Phase 6"), and configuring the project for deployment to GitHub Pages.
+Implement the "Smartest Cart" logic by making "Bulk Buying" an automatic, core feature (removing the user toggle) and enabling a "Manual Real Search" that mocks the experience of searching a real supermarket database.
 
 ## User Review Required
 > [!IMPORTANT]
-> **AI Implementation**: I will implement a "Mock AI" service initially that generates recipes based on the cart items locally. This ensures the app works immediately without requiring an API key.
-> **Deployment**: I will configure `next.config.ts` for a static export, which is required for GitHub Pages.
+> **Data Source**: Research confirms that "Grocer NZ" does not expose a public API and prohibits scraping. **Decision**: We will continue using a rich internal database ("Mock Real") that simulates real brands (e.g., Mainland, Anchor) and prices. The system will be structured to swap this for a real API (like a future custom scraper) easily.
+> **Auto-Bulk**: The "Buy in Bulk" toggle is gone. The app will now *automatically* upgrading to bulk sizes (e.g., 1kg Rice vs 500g) if it saves money per unit and fits within the total budget.
 
 ## Proposed Changes
 
-### Data Layer
-#### [MODIFY] [mockData.ts](file:///c:/Users/Tom/Documents/Developer/Side%20Hustle%20Ideas/nutrient-economist/data/mockData.ts)
-- Update `Product` interface to include `allergens: string[]` and `preservatives: string[]`.
-- Populate `products` data with common baby allergens (e.g., dairy, soy, egg) and preservatives (e.g., nitrates, sulphites).
+### Logic & Data
+#### [MODIFY] [utils.ts](file:///c:/Users/Tom/Documents/Developer/Side%20Hustle%20Ideas/nutrient-economist/data/utils.ts)
+- **Auto-Bulk Logic**: Remove `isBulkBuy` parameter. Implement internal rule: `if (bulkOption.pricePerUnit < standard.pricePerUnit && cartTotal < budget) useBulk()`.
+- **Swaps**: Implement `findSwap(product)` to suggest alternatives (e.g., "Butter too pricey? Try Margarine" or "Out of budget? Swap Steaks for Mince").
 
 ### UI Components
-#### [MODIFY] [MealPlan.tsx](file:///c:/Users/Tom/Documents/Developer/Side%20Hustle%20Ideas/nutrient-economist/components/MealPlan.tsx)
-- Enhance to show "AI Suggestions" based on the cart.
-- Display allergens and preservatives warnings next to items.
-
-#### [NEW] [AiChef.tsx](file:///c:/Users/Tom/Documents/Developer/Side%20Hustle%20Ideas/nutrient-economist/components/AiChef.tsx)
-- A new component to simulate the AI Meal Chef.
-- Takes the cart as input and "generates" recipes (Breakfast, Lunch, Dinner).
-- Logic:
-    - If cart has Oats + Milk -> Suggest "Creamy Porridge".
-    - If cart has Eggs + Toast -> Suggest "Scrambled Eggs on Toast".
-    - If cart has Mince + Pasta + Tomato -> Suggest "Bolognese".
-
-### Configuration
-#### [MODIFY] [next.config.ts](file:///c:/Users/Tom/Documents/Developer/Side%20Hustle%20Ideas/nutrient-economist/next.config.ts)
-- Add `output: 'export'` for static site generation.
-- Add `basePath: '/nutrient-economist'` for correct asset loading on GitHub Pages.
-- Add `images: { unoptimized: true }` for compatibility with GitHub Pages.
+#### [MODIFY] [ShoppingList.tsx](file:///c:/Users/Tom/Documents/Developer/Side%20Hustle%20Ideas/nutrient-economist/components/ShoppingList.tsx)
+- **Manual Add**: Create a search interface that queries our internal "Real Brand" database.
+- **Smart Feedback**: If the app auto-swapped to bulk, show a small pill: "Swapped to 1kg (Saved $2.50)".
 
 ## Verification Plan
-### Automated Tests
-- Build the project using `npm run build` to ensure static export works.
 ### Manual Verification
-- Verify that products show allergen/preservative info.
-- Verify that the "AI Chef" shows reasonable recipes based on the selected items.
-- Verify that the deployment guide includes the command to build and deploy to the `gh-pages` branch.
+- **Auto-Bulk**: Set a high budget, ensure 5kg Rice/Pasta is chosen. Set low budget, ensure 500g/1kg is chosen.
+- **Manual Search**: Type "Cheese" and see specific brand options (Mainland, Rolling Meadow) instead of generic "Cheese".

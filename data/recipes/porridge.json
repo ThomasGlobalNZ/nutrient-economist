@@ -1,0 +1,46 @@
+{
+    "id": "porridge",
+    "name": "Classic Porridge",
+    "emoji": "🥣",
+    "servings": 4,
+    "prepTime": 2,
+    "cookTime": 10,
+    "difficulty": "easy",
+    "tags": [
+        "breakfast",
+        "healthy",
+        "quick"
+    ],
+    "hasLeftovers": false,
+    "mealType": [
+        "breakfast"
+    ],
+    "ingredients": [
+        {
+            "productId": "c4",
+            "amount": 200,
+            "unit": "g",
+            "name": "Rolled Oats"
+        },
+        {
+            "productId": "d1",
+            "amount": 800,
+            "unit": "ml",
+            "name": "Milk"
+        },
+        {
+            "productId": "f1",
+            "amount": 2,
+            "unit": "whole",
+            "name": "Bananas"
+        }
+    ],
+    "steps": [
+        "Combine oats and milk in a pot",
+        "Bring to a simmer, stirring occasionally",
+        "Cook for 5-7 mins until thick and creamy",
+        "Serve in bowls topped with sliced banana",
+        "Add a drizzle of honey if you're feeling sweet"
+    ],
+    "notes": "Breakfast staple. Keeps you full till lunch. Baby-friendly too!"
+}

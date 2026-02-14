@@ -1,0 +1,53 @@
+{
+    "id": "beef-tacos",
+    "name": "Beef Tacos",
+    "emoji": "🌮",
+    "servings": 4,
+    "prepTime": 10,
+    "cookTime": 20,
+    "difficulty": "easy",
+    "tags": [
+        "mexican",
+        "fun",
+        "family-friendly"
+    ],
+    "hasLeftovers": false,
+    "mealType": [
+        "dinner"
+    ],
+    "ingredients": [
+        {
+            "productId": "p1",
+            "amount": 500,
+            "unit": "g",
+            "name": "Beef Mince"
+        },
+        {
+            "productId": "int-taco-kit",
+            "amount": 1,
+            "unit": "pack",
+            "name": "Taco Kit"
+        },
+        {
+            "productId": "d2",
+            "amount": 100,
+            "unit": "g",
+            "name": "Cheese"
+        },
+        {
+            "productId": "v4",
+            "amount": 200,
+            "unit": "g",
+            "name": "Canned Tomatoes"
+        }
+    ],
+    "steps": [
+        "Brown the mince in a pan",
+        "Add taco seasoning from the kit and a splash of water",
+        "Simmer for 10 mins until thick",
+        "Warm taco shells in the oven",
+        "Set up a DIY taco bar with mince, cheese, tomatoes",
+        "Let everyone build their own - it's a vibe!"
+    ],
+    "notes": "Taco Tuesday sorted. Kids go mental for this."
+}
