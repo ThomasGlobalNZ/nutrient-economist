@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Recipe } from '../data/recipeTypes';
-import { MessageCircle, Send, Mail, Check, Share2 } from 'lucide-react';
+import { MessageCircle, Send, Mail, Check, Share2, X } from 'lucide-react';
 
 interface ShareToolsProps {
     recipes: Recipe[];
@@ -17,6 +17,8 @@ interface ShareToolsProps {
 
 export default function ShareTools({ recipes, shoppingList, totalCost, familySize }: ShareToolsProps) {
     const [copied, setCopied] = useState(false);
+    const [showShoppingModal, setShowShoppingModal] = useState(false);
+    const [showRecipesModal, setShowRecipesModal] = useState(false);
 
     // Generate shopping list text
     const generateShoppingListText = () => {
@@ -74,17 +76,19 @@ export default function ShareTools({ recipes, shoppingList, totalCost, familySiz
         const text = content === 'shopping' ? generateShoppingListText() : generateRecipesText();
         const encoded = encodeURIComponent(text);
         window.open(`https://wa.me/?text=${encoded}`, '_blank');
+        setShowShoppingModal(false);
+        setShowRecipesModal(false);
     };
 
     // Share via Messenger
     const shareViaMessenger = (content: 'shopping' | 'recipes') => {
         const text = content === 'shopping' ? generateShoppingListText() : generateRecipesText();
-        const encoded = encodeURIComponent(text);
-        // Messenger doesn't support pre-filled text, so we'll copy to clipboard
         navigator.clipboard.writeText(text);
         setCopied(true);
         setTimeout(() => setCopied(false), 2000);
         window.open('https://www.messenger.com/', '_blank');
+        setShowShoppingModal(false);
+        setShowRecipesModal(false);
     };
 
     // Share via Email
@@ -93,6 +97,8 @@ export default function ShareTools({ recipes, shoppingList, totalCost, familySiz
         const subject = content === 'shopping' ? 'Shopping List from SmartKete' : 'Recipes from SmartKete';
         const encoded = encodeURIComponent(text);
         window.location.href = `mailto:?subject=${encodeURIComponent(subject)}&body=${encoded}`;
+        setShowShoppingModal(false);
+        setShowRecipesModal(false);
     };
 
     // Native share (mobile)
@@ -110,98 +116,127 @@ export default function ShareTools({ recipes, shoppingList, totalCost, familySiz
                 console.log('Share cancelled or failed');
             }
         } else {
-            // Fallback: copy to clipboard
             navigator.clipboard.writeText(text);
             setCopied(true);
             setTimeout(() => setCopied(false), 2000);
         }
+        setShowShoppingModal(false);
+        setShowRecipesModal(false);
     };
 
     return (
-        <div className="space-y-6">
-            {/* Shopping List Share */}
-            <div className="bg-emerald-50 border-2 border-emerald-200 rounded-xl p-6">
-                <div className="flex items-center gap-3 mb-4">
-                    <div className="bg-emerald-500 p-2 rounded-lg">
-                        <Share2 className="w-5 h-5 text-white" />
-                    </div>
-                    <h3 className="font-bold text-slate-900 text-lg">Share Shopping List</h3>
-                </div>
-                <p className="text-sm text-slate-600 mb-4">Send your shopping list to family or yourself</p>
-
-                <div className="grid grid-cols-2 gap-3">
-                    <button
-                        onClick={() => shareViaWhatsApp('shopping')}
-                        className="flex items-center justify-center gap-2 py-3 px-4 bg-green-500 hover:bg-green-600 text-white font-bold rounded-lg transition-all shadow-sm"
-                    >
-                        <MessageCircle className="w-4 h-4" />
-                        WhatsApp
-                    </button>
-                    <button
-                        onClick={() => shareViaMessenger('shopping')}
-                        className="flex items-center justify-center gap-2 py-3 px-4 bg-blue-500 hover:bg-blue-600 text-white font-bold rounded-lg transition-all shadow-sm"
-                    >
-                        <Send className="w-4 h-4" />
-                        Messenger
-                    </button>
-                    <button
-                        onClick={() => shareViaEmail('shopping')}
-                        className="flex items-center justify-center gap-2 py-3 px-4 bg-slate-500 hover:bg-slate-600 text-white font-bold rounded-lg transition-all shadow-sm"
-                    >
-                        <Mail className="w-4 h-4" />
-                        Email
-                    </button>
-                    <button
-                        onClick={() => handleNativeShare('shopping')}
-                        className="flex items-center justify-center gap-2 py-3 px-4 bg-emerald-500 hover:bg-emerald-600 text-white font-bold rounded-lg transition-all shadow-sm"
-                    >
-                        <Share2 className="w-4 h-4" />
-                        More...
-                    </button>
-                </div>
+        <div className="space-y-4">
+            {/* Main Share Buttons */}
+            <div className="grid grid-cols-2 gap-4">
+                <button
+                    onClick={() => setShowShoppingModal(true)}
+                    className="flex items-center justify-center gap-3 py-4 px-6 bg-emerald-500 hover:bg-emerald-600 text-white font-bold rounded-xl shadow-lg transition-all"
+                >
+                    <Share2 className="w-5 h-5" />
+                    Share Shopping List
+                </button>
+                <button
+                    onClick={() => setShowRecipesModal(true)}
+                    className="flex items-center justify-center gap-3 py-4 px-6 bg-purple-500 hover:bg-purple-600 text-white font-bold rounded-xl shadow-lg transition-all"
+                >
+                    <Share2 className="w-5 h-5" />
+                    Share Recipes
+                </button>
             </div>
 
-            {/* Recipes Share */}
-            <div className="bg-purple-50 border-2 border-purple-200 rounded-xl p-6">
-                <div className="flex items-center gap-3 mb-4">
-                    <div className="bg-purple-500 p-2 rounded-lg">
-                        <Share2 className="w-5 h-5 text-white" />
+            {/* Shopping List Modal */}
+            {showShoppingModal && (
+                <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-sm animate-fade-in">
+                    <div className="bg-white rounded-2xl shadow-xl w-full max-w-md overflow-hidden">
+                        <div className="bg-emerald-500 p-6 text-white">
+                            <div className="flex justify-between items-center">
+                                <h3 className="text-xl font-bold">Share Shopping List</h3>
+                                <button onClick={() => setShowShoppingModal(false)} className="p-2 hover:bg-white/20 rounded-full transition-colors">
+                                    <X className="w-5 h-5" />
+                                </button>
+                            </div>
+                            <p className="text-sm opacity-90 mt-2">Choose how to share</p>
+                        </div>
+                        <div className="p-6 space-y-3">
+                            <button
+                                onClick={() => shareViaWhatsApp('shopping')}
+                                className="w-full flex items-center gap-3 py-3 px-4 bg-green-500 hover:bg-green-600 text-white font-bold rounded-lg transition-all shadow-sm"
+                            >
+                                <MessageCircle className="w-5 h-5" />
+                                WhatsApp
+                            </button>
+                            <button
+                                onClick={() => shareViaMessenger('shopping')}
+                                className="w-full flex items-center gap-3 py-3 px-4 bg-blue-500 hover:bg-blue-600 text-white font-bold rounded-lg transition-all shadow-sm"
+                            >
+                                <Send className="w-5 h-5" />
+                                Messenger
+                            </button>
+                            <button
+                                onClick={() => shareViaEmail('shopping')}
+                                className="w-full flex items-center gap-3 py-3 px-4 bg-slate-500 hover:bg-slate-600 text-white font-bold rounded-lg transition-all shadow-sm"
+                            >
+                                <Mail className="w-5 h-5" />
+                                Email
+                            </button>
+                            <button
+                                onClick={() => handleNativeShare('shopping')}
+                                className="w-full flex items-center gap-3 py-3 px-4 bg-emerald-500 hover:bg-emerald-600 text-white font-bold rounded-lg transition-all shadow-sm"
+                            >
+                                <Share2 className="w-5 h-5" />
+                                More Options...
+                            </button>
+                        </div>
                     </div>
-                    <h3 className="font-bold text-slate-900 text-lg">Share Recipes</h3>
                 </div>
-                <p className="text-sm text-slate-600 mb-4">Send full recipe details with ingredients and steps</p>
+            )}
 
-                <div className="grid grid-cols-2 gap-3">
-                    <button
-                        onClick={() => shareViaWhatsApp('recipes')}
-                        className="flex items-center justify-center gap-2 py-3 px-4 bg-green-500 hover:bg-green-600 text-white font-bold rounded-lg transition-all shadow-sm"
-                    >
-                        <MessageCircle className="w-4 h-4" />
-                        WhatsApp
-                    </button>
-                    <button
-                        onClick={() => shareViaMessenger('recipes')}
-                        className="flex items-center justify-center gap-2 py-3 px-4 bg-blue-500 hover:bg-blue-600 text-white font-bold rounded-lg transition-all shadow-sm"
-                    >
-                        <Send className="w-4 h-4" />
-                        Messenger
-                    </button>
-                    <button
-                        onClick={() => shareViaEmail('recipes')}
-                        className="flex items-center justify-center gap-2 py-3 px-4 bg-slate-500 hover:bg-slate-600 text-white font-bold rounded-lg transition-all shadow-sm"
-                    >
-                        <Mail className="w-4 h-4" />
-                        Email
-                    </button>
-                    <button
-                        onClick={() => handleNativeShare('recipes')}
-                        className="flex items-center justify-center gap-2 py-3 px-4 bg-purple-500 hover:bg-purple-600 text-white font-bold rounded-lg transition-all shadow-sm"
-                    >
-                        <Share2 className="w-4 h-4" />
-                        More...
-                    </button>
+            {/* Recipes Modal */}
+            {showRecipesModal && (
+                <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-sm animate-fade-in">
+                    <div className="bg-white rounded-2xl shadow-xl w-full max-w-md overflow-hidden">
+                        <div className="bg-purple-500 p-6 text-white">
+                            <div className="flex justify-between items-center">
+                                <h3 className="text-xl font-bold">Share Recipes</h3>
+                                <button onClick={() => setShowRecipesModal(false)} className="p-2 hover:bg-white/20 rounded-full transition-colors">
+                                    <X className="w-5 h-5" />
+                                </button>
+                            </div>
+                            <p className="text-sm opacity-90 mt-2">Choose how to share</p>
+                        </div>
+                        <div className="p-6 space-y-3">
+                            <button
+                                onClick={() => shareViaWhatsApp('recipes')}
+                                className="w-full flex items-center gap-3 py-3 px-4 bg-green-500 hover:bg-green-600 text-white font-bold rounded-lg transition-all shadow-sm"
+                            >
+                                <MessageCircle className="w-5 h-5" />
+                                WhatsApp
+                            </button>
+                            <button
+                                onClick={() => shareViaMessenger('recipes')}
+                                className="w-full flex items-center gap-3 py-3 px-4 bg-blue-500 hover:bg-blue-600 text-white font-bold rounded-lg transition-all shadow-sm"
+                            >
+                                <Send className="w-5 h-5" />
+                                Messenger
+                            </button>
+                            <button
+                                onClick={() => shareViaEmail('recipes')}
+                                className="w-full flex items-center gap-3 py-3 px-4 bg-slate-500 hover:bg-slate-600 text-white font-bold rounded-lg transition-all shadow-sm"
+                            >
+                                <Mail className="w-5 h-5" />
+                                Email
+                            </button>
+                            <button
+                                onClick={() => handleNativeShare('recipes')}
+                                className="w-full flex items-center gap-3 py-3 px-4 bg-purple-500 hover:bg-purple-600 text-white font-bold rounded-lg transition-all shadow-sm"
+                            >
+                                <Share2 className="w-5 h-5" />
+                                More Options...
+                            </button>
+                        </div>
+                    </div>
                 </div>
-            </div>
+            )}
 
             {/* Copied notification */}
             {copied && (
