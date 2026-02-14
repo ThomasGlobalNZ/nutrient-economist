@@ -6,7 +6,7 @@ import RecipeBrowser from '../components/RecipeBrowser';
 import RecipeDetailModal from '../components/RecipeDetailModal';
 import SelectedMeals from '../components/SelectedMeals';
 import ShoppingList from '../components/ShoppingList';
-import ExportTools from '../components/ExportTools';
+import ShareTools from '../components/ShareTools';
 import DisclaimerModal from '../components/DisclaimerModal';
 import { Recipe } from '../data/recipeTypes';
 import { Product, products } from '../data/mockData';
@@ -329,27 +329,11 @@ export default function Home() {
                     ))}
                   </div>
 
-                  <ExportTools
-                    cart={{
-                      items: shoppingList.map(item => ({
-                        product: item.product!,
-                        quantity: Math.ceil(item.totalAmount / (item.product?.weight_g || 1)),
-                        savings: 0
-                      })),
-                      total: totalCost,
-                      remainingBudget: 0,
-                      totalMeals: selectedMealIds.length,
-                      daysCovered: 7,
-                      infantCount: infants,
-                      durationDays: 7,
-                      mealsRequired: selectedMealIds.length,
-                      isSurvivalMode: false
-                    }}
-                    adults={adults}
-                    infants={infants}
-                    durationDays={7}
-                    mealsPerDay={3}
-                    hasPantryStaples={hasPantryStaples}
+                  <ShareTools
+                    recipes={recipes.filter(r => selectedMealIds.includes(r.id))}
+                    shoppingList={shoppingList}
+                    totalCost={totalCost}
+                    familySize={{ adults, children, infants }}
                   />
                 </div>
               ) : (
