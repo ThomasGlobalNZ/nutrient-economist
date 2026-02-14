@@ -2,6 +2,9 @@
 REM SmartKete - Quick Push to GitHub
 REM Use this when you just want to push recipe changes
 
+REM Add Git to PATH
+set PATH=%PATH%;C:\Program Files\Git\bin
+
 echo ========================================
 echo SmartKete - Quick Push
 echo ========================================

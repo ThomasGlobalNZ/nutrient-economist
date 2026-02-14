@@ -2,6 +2,9 @@
 REM SmartKete - Deploy to GitHub Pages
 REM This script commits changes and deploys the app
 
+REM Add Git to PATH
+set PATH=%PATH%;C:\Program Files\Git\bin
+
 echo ========================================
 echo SmartKete Deployment Script
 echo ========================================
