@@ -1,3 +1,3 @@
-:HL["/nutrient-economist/_next/static/chunks/991d4c80037ecc92.css","style"]
+:HL["/nutrient-economist/_next/static/chunks/dbabe88b424f97ce.css","style"]
 :HL["/nutrient-economist/_next/static/media/fba5a26ea33df6a3-s.p.1bbdebe6.woff2","font",{"crossOrigin":"","type":"font/woff2"}]
-0:{"buildId":"nClqWF2Kx8IZek-aJ2FOO","tree":{"name":"","paramType":null,"paramKey":"","hasRuntimePrefetch":false,"slots":{"children":{"name":"__PAGE__","paramType":null,"paramKey":"__PAGE__","hasRuntimePrefetch":false,"slots":null,"isRootLayout":false}},"isRootLayout":true},"staleTime":300}
+0:{"buildId":"_vk-roeo0qg3qWrhn5XFH","tree":{"name":"","paramType":null,"paramKey":"","hasRuntimePrefetch":false,"slots":{"children":{"name":"__PAGE__","paramType":null,"paramKey":"__PAGE__","hasRuntimePrefetch":false,"slots":null,"isRootLayout":false}},"isRootLayout":true},"staleTime":300}
